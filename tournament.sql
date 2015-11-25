@@ -6,15 +6,14 @@
 -- You can write comments in this file by starting them with two dashes, like
 -- these lines here.
 
---1. Connect to the tournament database
+--1. Create Database
+
+DROP DATABASE IF EXISTS tournament;
+CREATE DATABASE tournament;
+
+--2. Connect to the tournament database
 
 \c tournament;
-
---2. Drop tables first (if they exist)
-
-DROP VIEW IF EXISTS playerStandings;
-DROP TABLE IF EXISTS match;
-DROP TABLE IF EXISTS player;
 
 --3. Create tables
 
@@ -25,8 +24,9 @@ CREATE TABLE player (
 
 CREATE TABLE match (
 	id serial PRIMARY KEY,
-	winner integer NOT NULL REFERENCES player (id),
-	loser integer NOT NULL REFERENCES player (id)
+	winner integer NOT NULL REFERENCES player (id) ON DELETE CASCADE,
+	loser integer NOT NULL REFERENCES player (id) ON DELETE CASCADE,
+	CHECK (winner <> loser)
 );
 
 
@@ -37,7 +37,7 @@ CREATE VIEW playerStandings AS
 			p.name,
 			COUNT(m1.winner) as wins,
 			COUNT(m2.id) as matches,
-			COUNT(m3.id) as OMW -- oppenent match wins
+			COUNT(m3.id) as omw -- oppenent match wins
 	FROM player p
 	-- this join helps count a player's wins
 	LEFT JOIN match m1 ON p.id = m1.winner
@@ -52,4 +52,4 @@ CREATE VIEW playerStandings AS
 	-- EXTRA CREDIT:
 	-- if two players have same wins then they will be
 	-- sorted by whoever has oppenents with more wins
-	ORDER BY wins DESC, OMW DESC;
+	ORDER BY wins DESC, omw DESC;

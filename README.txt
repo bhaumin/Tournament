@@ -22,11 +22,8 @@ How to run the application.
 You need to have installed python 2.7.6 and psql (PostgreSQL) 9.3.10 in your machine.
 
 1 - In terminal/cmd, navigate to the directory where the files are located.
-2 - Run the command line "psql".
-3 - You will see a psql prompt. On this run the command "create database tournament;" to create the tournament database.
-4 - Then run the command "\i tournament.sql" which will run the attached script file and create all the necessary database objects.
-5 - Run the command line "\q" to exit out of the psql.
-6 - Run the unit test file by the command "python tournament_test.py" which will run all the unit tests which will verify the functionality of the swiss-pair tournament rules.
+2 - Run the command line "psql -f tournament.sql" which will run the attached script file and create the database and all the necessary database objects.
+3 - Run the unit test file by the command "python tournament_test.py" which will run all the unit tests which will verify the functionality of the swiss-pair tournament rules.
 
 You should see the following output:
 
